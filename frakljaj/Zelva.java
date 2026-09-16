@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 public class Zelva{
     //poz, 
     double x, y;
@@ -37,6 +39,23 @@ public class Zelva{
         koch(n-1, korak, z);
     }
 
+    public static void drevo(int n, Zelva z, double korak, int medVejami){
+        StdDraw.setPenRadius(0.001*Math.pow(n, 1.2));
+        int blue = (n*50) % 256;
+        Color barva = new Color(0, 255, blue);
+        StdDraw.setPenColor(barva);
+        z.naprej(korak);
+        if(n == 0)
+            return;
+        Zelva leva = new Zelva(z.x, z.y, z.fi-medVejami);
+        Zelva desna = new Zelva(z.x, z.y, z.fi+medVejami);
+        Zelva srednja = new Zelva(z.x, z.y, z.fi);
+        
+        drevo(n-1, leva, korak*0.3, medVejami);
+        drevo(n-1, desna, korak*0.3, medVejami);        
+        drevo(n-1, srednja, korak*(1-0.3), medVejami);
+        
+    }
     public static void main(String[] args) {
         /* ŠESTKONTNIK
         Zelva z = new Zelva(0.5, 0, 180/3);
@@ -53,11 +72,20 @@ public class Zelva{
         z.zavijLevo(kot);
         }*/
 
-        Zelva z = new Zelva(0, 0, 0);
-        int n = 10;
+        /*Zelva z = new Zelva(0, 0, 0);
+        int n = 7;
         double korak = 1 / Math.pow(3,n);
         koch(n, korak, z);
+        z.zavijLevo(120);
+        koch(n, korak, z);
+        z.zavijLevo(120);
+        koch(n, korak, z);*/
 
+        Zelva z = new Zelva(0.5, 0, 90);
+        int n = 8;
+        double korak = 0.3;
+        drevo(n, z, korak, 40);
+        
     }
 
 }
